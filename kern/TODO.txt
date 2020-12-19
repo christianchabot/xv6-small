@@ -1,0 +1,7 @@
+TODO:
+
+- Remove all inline assembly.
+- Migrate .S files to .s files.
+- Set a build flag to build to i386 and i486 so code uses pic and lapic respectively.
+- No smp for i386, only i486.
+- Everything.

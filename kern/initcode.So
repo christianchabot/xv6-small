@@ -1,0 +1,135 @@
+
+initcode.o:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <start>:
+   0:	68 24 00 00 00       	push   $0x24
+   5:	68 1c 00 00 00       	push   $0x1c
+   a:	6a 00                	push   $0x0
+   c:	b8 12 00 00 00       	mov    $0x12,%eax
+  11:	cd 80                	int    $0x80
+
+00000013 <exit>:
+  13:	b8 01 00 00 00       	mov    $0x1,%eax
+  18:	cd 80                	int    $0x80
+  1a:	eb f7                	jmp    13 <exit>
+
+0000001c <init>:
+  1c:	2f                   	das    
+  1d:	69 6e 69 74 00 00 90 	imul   $0x90000074,0x69(%esi),%ebp
+
+00000024 <argv>:
+  24:	1c 00                	sbb    $0x0,%al
+  26:	00 00                	add    %al,(%eax)
+  28:	00 00                	add    %al,(%eax)
+	...
+
+Disassembly of section .debug_line:
+
+00000000 <.debug_line>:
+   0:	3d 00 00 00 02       	cmp    $0x2000000,%eax
+   5:	00 21                	add    %ah,(%ecx)
+   7:	00 00                	add    %al,(%eax)
+   9:	00 01                	add    %al,(%ecx)
+   b:	01 fb                	add    %edi,%ebx
+   d:	0e                   	push   %cs
+   e:	0d 00 01 01 01       	or     $0x1010100,%eax
+  13:	01 00                	add    %eax,(%eax)
+  15:	00 00                	add    %al,(%eax)
+  17:	01 00                	add    %eax,(%eax)
+  19:	00 01                	add    %al,(%ecx)
+  1b:	00 69 6e             	add    %ch,0x6e(%ecx)
+  1e:	69 74 63 6f 64 65 2e 	imul   $0x532e6564,0x6f(%ebx,%eiz,2),%esi
+  25:	53 
+  26:	00 00                	add    %al,(%eax)
+  28:	00 00                	add    %al,(%eax)
+  2a:	00 00                	add    %al,(%eax)
+  2c:	05 02 00 00 00       	add    $0x2,%eax
+  31:	00 03                	add    %al,(%ebx)
+  33:	0a 01                	or     (%ecx),%al
+  35:	59                   	pop    %ecx
+  36:	59                   	pop    %ecx
+  37:	2f                   	das    
+  38:	59                   	pop    %ecx
+  39:	32 59 2f             	xor    0x2f(%ecx),%bl
+  3c:	02 12                	add    (%edx),%dl
+  3e:	00 01                	add    %al,(%ecx)
+  40:	01                   	.byte 0x1
+
+Disassembly of section .debug_info:
+
+00000000 <.debug_info>:
+   0:	22 00                	and    (%eax),%al
+   2:	00 00                	add    %al,(%eax)
+   4:	02 00                	add    (%eax),%al
+   6:	00 00                	add    %al,(%eax)
+   8:	00 00                	add    %al,(%eax)
+   a:	04 01                	add    $0x1,%al
+	...
+  14:	2c 00                	sub    $0x0,%al
+  16:	00 00                	add    %al,(%eax)
+  18:	00 00                	add    %al,(%eax)
+  1a:	00 00                	add    %al,(%eax)
+  1c:	0b 00                	or     (%eax),%eax
+  1e:	00 00                	add    %al,(%eax)
+  20:	34 00                	xor    $0x0,%al
+  22:	00 00                	add    %al,(%eax)
+  24:	01                   	.byte 0x1
+  25:	80                   	.byte 0x80
+
+Disassembly of section .debug_abbrev:
+
+00000000 <.debug_abbrev>:
+   0:	01 11                	add    %edx,(%ecx)
+   2:	00 10                	add    %dl,(%eax)
+   4:	06                   	push   %es
+   5:	11 01                	adc    %eax,(%ecx)
+   7:	12 01                	adc    (%ecx),%al
+   9:	03 0e                	add    (%esi),%ecx
+   b:	1b 0e                	sbb    (%esi),%ecx
+   d:	25 0e 13 05 00       	and    $0x5130e,%eax
+	...
+
+Disassembly of section .debug_aranges:
+
+00000000 <.debug_aranges>:
+   0:	1c 00                	sbb    $0x0,%al
+   2:	00 00                	add    %al,(%eax)
+   4:	02 00                	add    (%eax),%al
+   6:	00 00                	add    %al,(%eax)
+   8:	00 00                	add    %al,(%eax)
+   a:	04 00                	add    $0x0,%al
+	...
+  14:	2c 00                	sub    $0x0,%al
+	...
+
+Disassembly of section .debug_str:
+
+00000000 <.debug_str>:
+   0:	69 6e 69 74 63 6f 64 	imul   $0x646f6374,0x69(%esi),%ebp
+   7:	65 2e 53             	gs cs push %ebx
+   a:	00 2f                	add    %ch,(%edi)
+   c:	68 6f 6d 65 2f       	push   $0x2f656d6f
+  11:	63 68 72             	arpl   %bp,0x72(%eax)
+  14:	69 73 74 69 61 6e 2f 	imul   $0x2f6e6169,0x74(%ebx),%esi
+  1b:	64 65 76 65          	fs gs jbe 84 <argv+0x60>
+  1f:	6c                   	insb   (%dx),%es:(%edi)
+  20:	6f                   	outsl  %ds:(%esi),(%dx)
+  21:	70 6d                	jo     90 <argv+0x6c>
+  23:	65 6e                	outsb  %gs:(%esi),(%dx)
+  25:	74 2f                	je     56 <argv+0x32>
+  27:	78 76                	js     9f <argv+0x7b>
+  29:	36 2f                	ss das 
+  2b:	42                   	inc    %edx
+  2c:	53                   	push   %ebx
+  2d:	44                   	inc    %esp
+  2e:	2f                   	das    
+  2f:	6b 65 72 6e          	imul   $0x6e,0x72(%ebp),%esp
+  33:	00 47 4e             	add    %al,0x4e(%edi)
+  36:	55                   	push   %ebp
+  37:	20 41 53             	and    %al,0x53(%ecx)
+  3a:	20 32                	and    %dh,(%edx)
+  3c:	2e 33 30             	xor    %cs:(%eax),%esi
+	...
