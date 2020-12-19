@@ -1,0 +1,89 @@
+/*
+Boot loader.
+
+Part of the boot block, along with bootasm.s, which calls bootmain().
+bootasm.s has put the processor into protected 32-bit mode.
+bootmain() loads an ELF kernel image from the disk starting at
+sector 1 and then jumps to the kernel entry routine.
+*/
+
+#include <elf.h>
+#include <x86.h>
+#include <memlayout.h>
+
+#define SECTSIZE 512
+
+/* Assembly. */
+
+/* Wait for disk ready. */
+void waitdisk(void);
+void x86out(unsigned int, unsigned int);
+void x86insw(void *, unsigned int, unsigned int);
+
+/* Read a single sector at offset into dst. */
+//void readsector(void *, unsigned int);
+
+void
+readsect(void *dst, unsigned int o)
+{
+	waitdisk();
+	x86out(0x1f2, 1);
+	x86out(0x1f3, o);
+	x86out(0x1f4, o >> 8);
+	x86out(0x1f5, o >> 16);
+	x86out(0x1f6, (o >> 24) | 0xe0);
+	x86out(0x1f7, 0x20);
+
+	waitdisk();
+	x86insw(dst, SECTSIZE/4, 0x1f0);
+	for (;;);
+}
+
+/*
+Read 'count' bytes at 'offset' from kernel into physical address 'pa'.
+Might copy more than asked.
+*/
+void
+readseg(unsigned char *pa, unsigned int count, unsigned int offset)
+{
+	unsigned char *epa = pa + count;
+	/* Translate from bytes to sectors; kernel starts at sector 1. */
+	for (; pa < epa; pa += SECTSIZE)
+		readsect(pa, ++offset);
+}
+
+void
+bootmain(void)
+{
+	struct elfhdr *elf;
+	struct proghdr *ph, *eph;
+	void (*entry)(void);
+	unsigned char *pa;
+
+	elf = (struct elfhdr *)0x10000;  // scratch space
+
+	/* Read 1st page off disk */
+	/* Causing the CPU not to progress. */
+	readseg((unsigned char *) elf, 4096, 0);
+
+	/* Is this an ELF executable? */
+	if (elf->magic != ELF_MAGIC)
+		return; /* let bootasm.S handle error */
+
+	/* Load each program segment (ignores ph flags). */
+	ph = (struct proghdr*) ((unsigned char *) elf + elf->phoff);
+	eph = ph + elf->phnum;
+	for (; ph < eph; ph++) {
+		pa = (unsigned char *) ph->paddr;
+		readseg(pa, ph->filesz, ph->off);
+		if (ph->memsz > ph->filesz)
+			stosb(pa + ph->filesz, 0, ph->memsz - ph->filesz);
+	}
+
+	/*
+	Call the entry point from the ELF header.
+	Does not return!
+	*/
+	entry = (void (*)(void)) (elf->entry);
+	entry();
+}

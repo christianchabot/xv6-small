@@ -1,0 +1,82 @@
+
+# Assembly helper functions
+
+#	void
+#	waitdisk(void)
+#	{
+#		/* Wait for disk ready. */
+#		while ((inb(0x1F7) & 0xC0) != 0x40)
+#			;
+#	}
+
+# void waitdisk(void)
+.global waitdisk
+waitdisk:
+	mov edx, 0x1f7
+	in al, dx
+	and eax, 0xffffffc0
+	cmp al, 0x40
+	jne waitdisk + 0x5
+	ret
+
+# void x86out(unsigned int, unsigned int)
+.global x86out
+x86out:
+	mov eax, [esp + 0x4]
+	mov edx, [esp + 0x8]
+	out dx, al
+	ret
+
+# void x86insw(void *, unsigned int, unsigned int)
+.global x86insw
+x86insw:
+	push edi
+	mov edi, [esp + 0x8]
+	mov ecx, [esp + 0xc]
+	mov edx, [esp + 0x10]
+	cld
+	rep insw
+	pop edi
+	ret
+
+.global readsector
+readsector:
+	push ebp
+	mov ebp, esp
+	push edi
+	push ebx
+	mov ebx, [ebp + 0x8]
+	call waitdisk
+	mov al, 0x1
+	mov edx, 0x1f2
+	out dx, al
+	mov edx, 0x1f3
+	mov al, bl
+	out dx, al
+	mov eax, ebx
+	shr eax, 0x8
+	mov edx, 0x1f4
+	out dx, al
+	mov eax, ebx
+	shr eax, 0x10
+	mov edx, 0x1f5
+	out dx, al
+	mov eax, ebx
+	shr eax, 0x18
+	or eax, 0xffffffe0
+	mov edx, 0x1f6
+	out dx, al
+	mov al, 0x20
+	mov edx, 0x1f7
+	out dx, al
+	call waitdisk
+	mov edi, [ebp + 0xc]
+	mov ecx, 0x80
+	mov edx, 0x1f0
+	cld
+	rep insw
+	pop ebx
+	pop edi
+	mov esp, ebp
+	pop ebp
+	ret
