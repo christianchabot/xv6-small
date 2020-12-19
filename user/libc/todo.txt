@@ -1,0 +1,30 @@
+
+string.h
+
+[XSI][Option Start]
+void    *memccpy(void *restrict, const void *restrict, int, size_t);
+[Option End]
+int      strcoll(const char *, const char *);
+[CX][Option Start]
+int      strcoll_l(const char *, const char *, locale_t);
+[Option End]
+char    *strdup(const char *);
+char    *strerror(int);
+[CX][Option Start]
+char    *strerror_l(int, locale_t);
+int      strerror_r(int, char *, size_t);
+[Option End]
+[CX][Option Start]
+char    *strndup(const char *, size_t);
+[Option End]
+[CX][Option Start]
+char    *strsignal(int);
+[Option End]
+char    *strtok(char *restrict, const char *restrict);
+[CX][Option Start]
+char    *strtok_r(char *restrict, const char *restrict, char **restrict);
+[Option End]
+size_t   strxfrm(char *restrict, const char *restrict, size_t);
+[CX][Option Start]
+size_t   strxfrm_l(char *restrict, const char *restrict,
+             size_t, locale_t);
