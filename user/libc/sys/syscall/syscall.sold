@@ -1,0 +1,132 @@
+.global exit
+.global fork
+.global read
+.global write
+.global open
+.global close
+.global wait
+.global link
+.global unlink
+.global chdir
+.global mknod
+.global getpid
+.global getppid
+.global kill
+.global dup
+.global pipe
+.global fstat
+.global exec
+.global sbrk
+.global uptime
+.global mkdir
+.global sleep
+
+exit:
+	mov eax, 1
+	int 64
+	ret
+
+fork:
+	mov eax, 2
+	int 64
+	ret
+
+read:
+	mov eax, 3
+	int 64
+	ret
+
+write:
+	mov eax, 4
+	int 64
+	ret
+
+open:
+	mov eax, 5
+	int 64
+	ret
+
+close:
+	mov eax, 6
+	int 64
+	ret
+
+wait:
+	mov eax, 7
+	int 64
+	ret
+
+link:
+	mov eax, 8
+	int 64
+	ret
+
+unlink:
+	mov eax, 9
+	int 64
+	ret
+
+chdir:
+	mov eax, 10
+	int 64
+	ret
+
+mknod:
+	mov eax, 11
+	int 64
+	ret
+
+getpid:
+	mov eax, 12
+	int 64
+	ret
+
+getppid:
+	mov eax, 13
+	int 64
+	ret
+
+kill:
+	mov eax, 14
+	int 64
+	ret
+
+dup:
+	mov eax, 15
+	int 64
+	ret
+
+pipe:
+	mov eax, 16
+	int 64
+	ret
+
+fstat:
+	mov eax, 17
+	int 64
+	ret
+
+exec:
+	mov eax, 18
+	int 64
+	ret
+
+sbrk:
+	mov eax, 19
+	int 64
+	ret
+
+uptime:
+	mov eax, 20
+	int 64
+	ret
+
+mkdir:
+	mov eax, 21
+	int 64
+	ret
+
+sleep:
+	mov eax, 22
+	int 64
+	ret

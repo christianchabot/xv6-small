@@ -1,0 +1,1 @@
+stpcpy.o: stpcpy.c
